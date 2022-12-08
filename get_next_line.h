@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:07:05 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/08 13:40:52 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/08 13:41:41 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #  ifndef BUFFER_SIZE
 #   define BUFFER_SIZE 1
-#  endif
+# endif
 
 #  include <fcntl.h>
 #  include <stdio.h>
