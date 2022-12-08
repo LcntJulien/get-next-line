@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/08 13:44:21 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/08 14:29:58 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ size_t	ft_strlen(const char *s)
 	return (i);
 }
 
-int	process(int len, char *line, int fd)
+int	process(char *line, int fd)
 {
 	int			i;
 	int			j;
@@ -32,34 +32,30 @@ int	process(int len, char *line, int fd)
 	i = 0;
 	j = BUFFER_SIZE;
 	stash = 0;
-	while (j != 0)
+	while (i != 0)
 	{
-		j = read(fd, buf, BUFFER_SIZE);
+		i = read(fd, buf, BUFFER_SIZE);
 		ft_strjoin(stash, buf);
-		while (stash[i++])
+		while (stash[j++])
 		{
-			if (stash[i] == "$")
+			if (stash[j] == "$")
 			{
-				line += ft_strtrim(ft_substr(stash, 0, i), "$");
-				ft_putstr(line);
-				len += ft_strlen(line);
+				tmpline = ft_strtrim(ft_strlcpy(stash, ), "$");
 				break ;
 			}
 		}
 	}
-	return (len);
+	return (line);
 }
 
 char	*get_next_line(int fd)
 {
-	int		linelen;
 	char	*line;
 
-	linelen = 0;
 	line = 0;
 	if (!fd)
 		return (NULL);
 	else
-		linelen += process(linelen, line, fd);
-	return (linelen);
+		line += process(line, fd);
+	return (line);
 }
