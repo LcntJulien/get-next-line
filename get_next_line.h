@@ -6,13 +6,16 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:07:05 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/07 16:28:24 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/08 13:06:16 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H BUFFER_SIZE
+#ifndef GET_NEXT_LINE_H
 #define GET_NEXT_LINE_H
-#define BUFFER_SIZE = 1
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 1
+# endif
 
 # include <fcntl.h>
 # include <stdlib.h>
@@ -20,5 +23,6 @@
 # include <stdio.h>
 
 char    *get_next_line(int  fd);
+char	*ft_strjoin(char const *s1, char const *s2);
 
 #endif
