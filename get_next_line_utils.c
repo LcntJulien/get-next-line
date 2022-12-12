@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:06:39 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/10 14:02:45 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/12 12:02:21 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,30 +49,25 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	return (p);
 }
 
-void	*ft_memcpy(void *restrict dst, const void *restrict src, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
 	size_t	i;
 
 	i = 0;
-	if (!dst && !src)
-		return (NULL);
 	while (i < n)
 	{
-		*(char *)(dst + i) = *(char *)(src + i);
+		*(char *)(s + i) = 0;
 		i++;
 	}
-	return (dst);
 }
 
-char	*ft_strdup(const char *s1)
+void	*ft_calloc(size_t count, size_t size)
 {
-	char	*p;
+	void	*p;
 
-	if (s1[0] == '\0')
-		return (ft_calloc(1, sizeof(char)));
-	p = (char *)malloc(ft_strlen(s1) + 1);
+	p = malloc(size * count);
 	if (!p)
 		return (NULL);
-	ft_memcpy(p, s1, (ft_strlen(s1) + 1));
+	ft_bzero(p, count * size);
 	return (p);
 }

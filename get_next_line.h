@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:07:05 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/08 16:43:23 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/12 12:05:13 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 
 char	*get_next_line(int fd);
 char	*ft_strjoin(char const *s1, char const *s2);
+
+void	ft_bzero(void *s, size_t n);
+void	*ft_calloc(size_t count, size_t size);
 
 size_t	ft_strlen(const char *s);
 

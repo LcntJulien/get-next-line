@@ -6,27 +6,32 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/10 14:07:20 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/12 12:05:37 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*makeline(char	*stash)
+char	*makeline(char *stash)
 {
-	int	i;
+	int		i;
+	int		j;
 	char	*line;
 
 	i = 0;
-	while (stash[i] != '\n')
+	j = 0;
+	while (stash[i] != '\n' || stash[i] != '\0')
 		i++;
 	line = ft_calloc((i, sizeof(char)));
-	i = 0;
-	while (i)
+	while (j < i)
 	{
-		/* code */
+		line[j] = stash[j];
+		j++;
 	}
-	
+	if (stash[i] == '\n')
+		line[i] = '\n';
+	else
+		line[i] = '\0';
 	return (line);
 }
 
@@ -86,8 +91,3 @@ char	*get_next_line(int fd)
 		line = process(buf, fd);
 	return (line);
 }
-
-//	boucle de read sur fd qui add buf a un stash(statique) a chaques iterations
-//		if qui stop le processus apres avoir call sur une fct pour stash si on trouve nextline
-// fct(aim 1) : sortir la line sans $ et ajouter un retour a la ligne (malloc)
-// fct(aim 2) : nettoyer le stash
