@@ -6,21 +6,35 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/10 13:17:27 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/10 14:07:20 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*makeline(char	*stash)
+{
+	int	i;
+	char	*line;
 
+	i = 0;
+	while (stash[i] != '\n')
+		i++;
+	line = ft_calloc((i, sizeof(char)));
+	i = 0;
+	while (i)
+	{
+		/* code */
+	}
+	
+	return (line);
+}
 
 int	findnextline(char *stash)
 {
 	int	i;
-	int	j;
 
 	i = 0;
-	j = ft_strlen(stash);
 	while (stash[i++])
 	{
 		if (stash[i] == '\n')
