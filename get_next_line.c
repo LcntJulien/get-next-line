@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/12 12:05:37 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/12 12:07:56 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*makeline(char *stash)
 {
-	int		i;
+	size_t	i;
 	int		j;
 	char	*line;
 
@@ -22,7 +22,7 @@ char	*makeline(char *stash)
 	j = 0;
 	while (stash[i] != '\n' || stash[i] != '\0')
 		i++;
-	line = ft_calloc((i, sizeof(char)));
+	line = ft_calloc(i, sizeof(char));
 	while (j < i)
 	{
 		line[j] = stash[j];
