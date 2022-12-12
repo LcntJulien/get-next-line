@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/12 12:37:19 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/12 12:42:11 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,19 +48,22 @@ int	findnextline(char *stash)
 	return (0);
 }
 
-char	*cleanbuf(char	*buf)
+char	*cleanbuf(char *buf, int nextline)
 {
 	int	i;
 	int	j;
 
 	i = 0;
 	j = 0;
-	while (buf[i] != '\n')
-		i++;
-	while (buf[++i] != '\0')
-		buf[j++] = buf[i];
-	while (buf[++j])
-		buf[j] = '\0';
+	if (nextline > 0)
+	{
+		while (buf[i] != '\n')
+			i++;
+		while (buf[++i] != '\0')
+			buf[j++] = buf[i];
+		while (buf[++j])
+			buf[j] = '\0';
+	}
 	return (buf);
 }
 
@@ -87,7 +90,7 @@ char	*process(char *buffer, int filedes)
 			break ;
 	}
 	line = makeline(stash);
-	buffer = cleanbuf(buffer);
+	buffer = cleanbuf(buffer, findnextline(stash));
 	free(buffer);
 	return (line);
 }
