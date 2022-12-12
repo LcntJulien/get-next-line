@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/12 12:42:11 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/12 18:00:10 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 char	*makeline(char *stash)
 {
 	size_t	i;
-	int		j;
+	size_t	j;
 	char	*line;
 
 	i = 0;
@@ -67,15 +67,17 @@ char	*cleanbuf(char *buf, int nextline)
 	return (buf);
 }
 
-char	*process(char *buffer, int filedes)
+char	*process(int filedes)
 {
 	int		i;
 	char	*stash;
 	char	*line;
+	char	*buffer;
 
 	i = 0;
 	stash = 0;
 	line = 0;
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	while (i > 0)
 	{
 		i = read(filedes, buffer, BUFFER_SIZE);
@@ -98,13 +100,11 @@ char	*process(char *buffer, int filedes)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*buf;
 
-	buf = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	line = 0;
-	if (!fd || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 		return (NULL);
 	else
-		line = process(buf, fd);
+		line = process(fd);
 	return (line);
 }
