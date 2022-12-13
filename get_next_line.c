@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/12 18:00:10 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/13 16:20:44 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,44 +67,40 @@ char	*cleanbuf(char *buf, int nextline)
 	return (buf);
 }
 
-char	*process(int filedes)
+char	*process(int filedes, char *buffer)
 {
 	int		i;
 	char	*stash;
 	char	*line;
-	char	*buffer;
 
-	i = 0;
-	stash = 0;
+	i = 1;
 	line = 0;
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	while (i > 0)
 	{
 		i = read(filedes, buffer, BUFFER_SIZE);
-		if (i == -1)
-		{
-			free(buffer);
-			break ;
-		}
-		buffer[i] = '\0';
-		ft_strjoin(stash, buffer);
-		if (findnextline(stash) > 0)
+		buffer[BUFFER_SIZE] = '\0';
+		stash = ft_strjoin(stash, buffer);
+		if (findnextline(stash))
 			break ;
 	}
 	line = makeline(stash);
 	buffer = cleanbuf(buffer, findnextline(stash));
-	free(buffer);
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
+	static char	*buffer;
 
 	line = 0;
+	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		free(buffer);
 		return (NULL);
+	}
 	else
-		line = process(fd);
+		line = process(fd, buffer);
 	return (line);
 }
