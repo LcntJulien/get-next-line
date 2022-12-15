@@ -6,101 +6,97 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/13 17:35:28 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/15 12:04:21 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
+char	*cleanstash(char *stash, char *line)
+{
+	int		i;
+	int		len;
+	char	*newstash;
+
+	i = 0;
+	len = (ft_strlen(stash) - ft_strlen(line) + 1);
+	newstash = ft_calloc(len, sizeof(char));
+	while (stash[(ft_strlen(line) + i)] != '\0')
+	{
+		newstash[i] = stash[(ft_strlen(line) + i)];
+		i++;
+	}
+	newstash[(ft_strlen(line) + i)] = '\0';
+	return (newstash);
+}
+
+char	*catstash(char *stash, char *buffer)
+{
+	char	*tmp;
+
+	tmp = ft_strjoin(stash, buffer);
+	free(stash);
+	return (tmp);
+}
+
+char	*getstash(int fd, char *stash)
+{
+	int		i;
+	char	*buffer;
+
+	i = 1;
+	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	while (i > 0)
+	{
+		i = read(fd, buffer, BUFFER_SIZE);
+		if (i == -1)
+		{
+			free(buffer);
+			return (NULL);
+		}
+		buffer[i] = '\0';
+		stash = catstash(stash, buffer);
+		if (ft_strrchr(buffer, '\n'))
+			break ;
+	}
+	free(buffer);
+	return (stash);
+}
+
 char	*makeline(char *stash)
 {
-	size_t	i;
-	size_t	j;
+	int		i;
+	int		j;
 	char	*line;
 
 	i = 0;
-	j = 0;
+	j = 1;
 	while (stash[i] != '\n' || stash[i] != '\0')
 		i++;
-	line = ft_calloc(i, sizeof(char));
+	if (stash[i] != '\n')
+		j++;
+	line = ft_calloc((i += j), sizeof(char));
+	j = 0;
 	while (j < i)
 	{
 		line[j] = stash[j];
 		j++;
 	}
-	if (stash[i] == '\n')
-		line[i] = '\n';
-	else
-		line[i] = '\0';
-	return (line);
-}
-
-int	findnextline(char *stash)
-{
-	int	i;
-
-	i = 0;
-	while (stash[i++])
-	{
-		if (stash[i] == '\n')
-			return (1);
-	}
-	return (0);
-}
-
-char	*cleanbuf(char *buf, int nextline)
-{
-	int	i;
-	int	j;
-
-	i = 0;
-	j = 0;
-	if (nextline > 0)
-	{
-		while (buf[i] != '\n')
-			i++;
-		while (buf[++i] != '\0')
-			buf[j++] = buf[i];
-		while (buf[++j])
-			buf[j] = '\0';
-	}
-	return (buf);
-}
-
-char	*process(int filedes, char *buffer)
-{
-	int		i;
-	char	*stash;
-	char	*line;
-
-	i = 1;
-	line = 0;
-	while (i > 0)
-	{
-		i = read(filedes, buffer, BUFFER_SIZE);
-		buffer[BUFFER_SIZE] = '\0';
-		stash = ft_strjoin(stash, buffer);
-		if (findnextline(stash))
-			break ;
-	}
-	line = makeline(stash);
-	buffer = cleanbuf(buffer, findnextline(stash));
+	line[i] = '\0';
 	return (line);
 }
 
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*buffer;
+	static char	*stash;
 
-	line = 0;
-	buffer = ft_calloc(BUFFER_SIZE + 1, sizeof(char));
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
-	{
-		free(buffer);
 		return (NULL);
-	}
-	else
-		line = process(fd, buffer);
+	stash = getstash(fd, stash);
+	if (!stash)
+		return (NULL);
+	line = makeline(stash);
+	stash = cleanstash(stash, line);
 	return (line);
 }

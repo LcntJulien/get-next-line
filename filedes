@@ -1,4 +1,0 @@
-Ceci est un fichier text d'exemple.
-Dont le but est de tester la fonction get_next_line.
-Ici je place une phrase assez longue afin de voir comment s'en sort la fonction avec des grands params.
-Puis je ne met pas de retour à la ligne sur cette phrase.

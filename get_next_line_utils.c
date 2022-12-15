@@ -6,13 +6,13 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:06:39 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/13 16:28:55 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/15 12:04:31 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(const char *s)
+int	ft_strlen(const char *s)
 {
 	int	i;
 
@@ -20,6 +20,47 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
+}
+
+char	*ft_strrchr(const char *s, int c)
+{
+	int	i;
+
+	i = ft_strlen(s);
+	while (i >= 0)
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+		i--;
+	}
+	return (NULL);
+}
+
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	int		i;
+	int		j;
+	int		len;
+	char	*p;
+
+	i = 0;
+	j = 0;
+	len = ft_strlen(s1) + ft_strlen(s2) + 1;
+	p = malloc(sizeof(char) * len);
+	if (!p)
+		return (0);
+	while (s1[i])
+	{
+		p[i] = s1[i];
+		i++;
+	}
+	while (s2[j])
+	{
+		p[i + j] = s2[j];
+		j++;
+	}
+	p[i + j] = '\0';
+	return (p);
 }
 
 void	ft_bzero(void *s, size_t n)
@@ -42,29 +83,5 @@ void	*ft_calloc(size_t count, size_t size)
 	if (!p)
 		return (NULL);
 	ft_bzero(p, count * size);
-	return (p);
-}
-
-char	*ft_strjoin(char *s1, char *s2)
-{
-	int		i;
-	int		j;
-	int		len;
-	char	*tmp;
-	char	*p;
-
-	i = 0;
-	j = 0;
-	len = (ft_strlen(s1) + ft_strlen(s2) + 1);
-	tmp = s1;
-	p = malloc(sizeof(char) * len);
-	if (!p)
-		return (0);
-	free(s1);
-	while (tmp[i++])
-		p[i] = tmp[i];
-	while (s2[j++])
-		p[i + j] = s2[j];
-	p[i + j] = '\0';
 	return (p);
 }
