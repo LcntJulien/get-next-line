@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/15 12:04:21 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:13:08 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*getstash(int fd, char *stash)
 			free(buffer);
 			return (NULL);
 		}
-		buffer[i] = '\0';
+		buffer[i] = 0;
 		stash = catstash(stash, buffer);
 		if (ft_strrchr(buffer, '\n'))
 			break ;
@@ -66,23 +66,20 @@ char	*getstash(int fd, char *stash)
 char	*makeline(char *stash)
 {
 	int		i;
-	int		j;
 	char	*line;
 
 	i = 0;
-	j = 1;
-	while (stash[i] != '\n' || stash[i] != '\0')
+	while (stash[i] && stash[i] != '\n')
 		i++;
-	if (stash[i] != '\n')
-		j++;
-	line = ft_calloc((i += j), sizeof(char));
-	j = 0;
-	while (j < i)
+	line = ft_calloc((i + 2), sizeof(char));
+	i = 0;
+	while (stash[i] && stash[i] != '\n')
 	{
-		line[j] = stash[j];
-		j++;
+		line[i] = stash[i];
+		i++;
 	}
-	line[i] = '\0';
+	if (ft_strrchr(stash, '\n'))
+		line[i] = '\n';
 	return (line);
 }
 

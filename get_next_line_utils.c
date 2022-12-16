@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:06:39 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/15 12:04:31 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/16 13:04:28 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*ft_strrchr(const char *s, int c)
 			return ((char *)(s + i));
 		i--;
 	}
-	return (NULL);
+	return (0);
 }
 
 char	*ft_strjoin(char const *s1, char const *s2)
@@ -43,12 +43,14 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		len;
 	char	*p;
 
+	if (!s1 || !s2)
+		return (NULL);
 	i = 0;
 	j = 0;
 	len = ft_strlen(s1) + ft_strlen(s2) + 1;
 	p = malloc(sizeof(char) * len);
 	if (!p)
-		return (0);
+		return (NULL);
 	while (s1[i])
 	{
 		p[i] = s1[i];
@@ -79,6 +81,8 @@ void	*ft_calloc(size_t count, size_t size)
 {
 	void	*p;
 
+	if (!count || !size)
+		return (NULL);
 	p = malloc(size * count);
 	if (!p)
 		return (NULL);
