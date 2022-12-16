@@ -6,16 +6,19 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:06:39 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/16 15:10:20 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/16 16:21:13 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <string.h>
 
 int	ft_strlen(const char *s)
 {
 	int	i;
 
+	if (!s)
+		return (0);
 	i = 0;
 	while (s[i])
 		i++;
@@ -43,6 +46,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		len;
 	char	*p;
 	
+	if (!s1)
+		s1 = ft_calloc(1, sizeof(char));
+	if (!s1)
+		return (NULL);
 	i = 0;
 	j = 0;
 	len = ft_strlen(s1) + ft_strlen(s2);
@@ -54,12 +61,12 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		p[i] = s1[i];
 		i++;
 	}
-	while (s2[j++])
+	while (s2[j])
 	{
 		p[i + j] = s2[j];
 		j++;
 	}
-	// p[i + j] = '\0';
+	p[i + j] = '\0';
 	return (p);
 }
 

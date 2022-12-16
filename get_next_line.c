@@ -6,11 +6,12 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/16 15:12:28 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/16 16:29:15 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <string.h>
 
 char	*cleanstash(char *stash, char *line)
 {
@@ -18,15 +19,24 @@ char	*cleanstash(char *stash, char *line)
 	int		len;
 	char	*newstash;
 
+	if (!stash)
+	{
+		return (NULL);
+	}
+	if (!line)
+		line = ft_calloc(1, sizeof(char));
 	i = 0;
 	len = (ft_strlen(stash) - ft_strlen(line) + 1);
 	newstash = ft_calloc(len, sizeof(char));
+	if (!newstash)
+		return (NULL);
 	while (stash[(ft_strlen(line) + i)] != '\0')
 	{
 		newstash[i] = stash[(ft_strlen(line) + i)];
 		i++;
 	}
-	newstash[(ft_strlen(line) + i)] = '\0';
+	newstash[i] = '\0';
+	free(stash);
 	return (newstash);
 }
 
@@ -45,9 +55,9 @@ char	*getstash(int fd, char *stash)
 	char	*buffer;
 
 	i = 1;
-	if (!stash)
-		stash = ft_calloc(1, 1);
 	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
+	if (!buffer)
+		return (NULL);
 	while (i > 0)
 	{
 		i = read(fd, buffer, BUFFER_SIZE);
@@ -70,10 +80,14 @@ char	*makeline(char *stash)
 	int		i;
 	char	*line;
 
+	if (!stash)
+		return (NULL);
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 		i++;
 	line = ft_calloc((i + 1), sizeof(char));
+	if (!line)
+		return (NULL);
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 	{
@@ -91,11 +105,22 @@ char	*get_next_line(int fd)
 	static char	*stash;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		free(stash);
+		stash = 0;
 		return (NULL);
+	}
 	stash = getstash(fd, stash);
 	if (!stash)
 		return (NULL);
 	line = makeline(stash);
 	stash = cleanstash(stash, line);
+	if (!line || line[0] == 0)
+	{
+		free(stash);
+		free(line);
+		stash = NULL;
+		return (NULL);
+	}
 	return (line);
 }
