@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/16 13:13:08 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/16 15:12:28 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,16 +45,18 @@ char	*getstash(int fd, char *stash)
 	char	*buffer;
 
 	i = 1;
+	if (!stash)
+		stash = ft_calloc(1, 1);
 	buffer = ft_calloc((BUFFER_SIZE + 1), sizeof(char));
 	while (i > 0)
 	{
 		i = read(fd, buffer, BUFFER_SIZE);
-		if (i == -1)
+		if (i == -1 || (!stash && i == 0))
 		{
 			free(buffer);
 			return (NULL);
 		}
-		buffer[i] = 0;
+		buffer[i] = '\0';
 		stash = catstash(stash, buffer);
 		if (ft_strrchr(buffer, '\n'))
 			break ;
@@ -71,7 +73,7 @@ char	*makeline(char *stash)
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	line = ft_calloc((i + 2), sizeof(char));
+	line = ft_calloc((i + 1), sizeof(char));
 	i = 0;
 	while (stash[i] && stash[i] != '\n')
 	{
