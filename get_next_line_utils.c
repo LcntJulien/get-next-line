@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:06:39 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/16 16:21:13 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/20 13:02:58 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,31 @@ char	*ft_strrchr(const char *s, int c)
 	return (0);
 }
 
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < n)
+	{
+		*(char *)(s + i) = 0;
+		i++;
+	}
+}
+
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*p;
+
+	if (!count || !size)
+		return (NULL);
+	p = malloc(size * count);
+	if (!p)
+		return (NULL);
+	ft_bzero(p, count * size);
+	return (p);
+}
+
 char	*ft_strjoin(char const *s1, char const *s2)
 {
 	int		i;
@@ -67,30 +92,5 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		j++;
 	}
 	p[i + j] = '\0';
-	return (p);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	size_t	i;
-
-	i = 0;
-	while (i < n)
-	{
-		*(char *)(s + i) = 0;
-		i++;
-	}
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	void	*p;
-
-	if (!count || !size)
-		return (NULL);
-	p = malloc(size * count);
-	if (!p)
-		return (NULL);
-	ft_bzero(p, count * size);
 	return (p);
 }
