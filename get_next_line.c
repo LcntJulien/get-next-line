@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/29 15:13:47 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/29 16:45:13 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ char	*cleanstash(char *stash)
 	if (!stash[i])
 	{
 		free(stash);
+		stash = 0;
 		return (NULL);
 	}
 	newstash = malloc(sizeof(char) * (ft_strlen(stash) - i));
@@ -37,6 +38,7 @@ char	*cleanstash(char *stash)
 	}
 	newstash[len] = 0;
 	free(stash);
+	stash = 0;
 	return (newstash);
 }
 
@@ -84,12 +86,14 @@ char	*getstash(int fd, char *stash)
 		if (i == -1)
 		{
 			free(buffer);
+			buffer = 0;
 			return (NULL);
 		}
 		buffer[i] = 0;
 		stash = ft_strjoin(stash, buffer);
 	}
 	free(buffer);
+	buffer = 0;
 	return (stash);
 }
 
