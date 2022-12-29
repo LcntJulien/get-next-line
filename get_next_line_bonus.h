@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.h                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/06 18:07:05 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/29 14:56:37 by jlecorne         ###   ########.fr       */
+/*   Created: 2022/12/29 15:08:55 by jlecorne          #+#    #+#             */
+/*   Updated: 2022/12/29 15:12:29 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
+#ifndef GET_NEXT_LINE_BONUS_H
+# define GET_NEXT_LINE_BONUS_H
 
 # ifndef BUFFER_SIZE
 #  define BUFFER_SIZE 42
 # endif
 
+# include <limits.h>
 # include <fcntl.h>
 # include <stdio.h>
 # include <stdlib.h>

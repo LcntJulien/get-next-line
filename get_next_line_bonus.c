@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/29 15:13:47 by jlecorne         ###   ########.fr       */
+/*   Created: 2022/12/29 15:07:23 by jlecorne          #+#    #+#             */
+/*   Updated: 2022/12/29 15:13:59 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*cleanstash(char *stash)
 {
@@ -96,19 +96,19 @@ char	*getstash(int fd, char *stash)
 char	*get_next_line(int fd)
 {
 	char		*line;
-	static char	*stash;
+	static char	*stash[OPEN_MAX];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
 	{
-		free(stash);
-		stash = 0;
+		free(stash[fd]);
+		stash[fd] = 0;
 		return (NULL);
 	}
 	line = 0;
-	stash = getstash(fd, stash);
-	if (!stash)
+	stash[fd] = getstash(fd, stash[fd]);
+	if (!stash[fd])
 		return (NULL);
-	line = makeline(stash, line);
-	stash = cleanstash(stash);
+	line = makeline(stash[fd], line);
+	stash[fd] = cleanstash(stash[fd]);
 	return (line);
 }
