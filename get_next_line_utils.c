@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:06:39 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/28 15:27:45 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/29 11:11:47 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,28 +95,28 @@ char	*ft_strjoin(char *s1, char *s2)
 // 	return (NULL);
 // }
 
-// void	ft_bzero(void *s, size_t n)
-// {
-// 	size_t	i;
+void	ft_bzero(void *s, size_t n)
+{
+	size_t	i;
 
-// 	i = 0;
-// 	while (i < n)
-// 	{
-// 		*(char *)(s + i) = 0;
-// 		i++;
-// 	}
-// }
+	i = 0;
+	while (i < n)
+	{
+		*(char *)(s + i) = 0;
+		i++;
+	}
+}
 
-// void	*ft_calloc(size_t count, size_t size)
-// {
-// 	void	*p;
+void	*ft_calloc(size_t count, size_t size)
+{
+	void	*p;
 
-// 	p = malloc(size * count);
-// 	if (!p)
-// 		return (NULL);
-// 	ft_bzero(p, count * size);
-// 	return (p);
-// }
+	p = malloc(size * count);
+	if (!p)
+		return (NULL);
+	ft_bzero(p, count * size);
+	return (p);
+}
 
 // char	*ft_strjoin(char const *s1, char const *s2)
 // {
