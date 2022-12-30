@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:06:39 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/30 11:01:48 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/30 14:37:39 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,11 @@ char	*ft_strjoin(char *s1, char *s2)
 		s1 = ft_calloc(1, 1);
 	if (!s1 || !s2)
 		return (NULL);
+	if (s1 && !s2)
+		free(s1);
 	s = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
 	if (!s)
-		return (NULL);
+		return (s1 = freedent(&s1));
 	i = -1;
 	j = 0;
 	if (s1)

@@ -6,11 +6,18 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/30 11:11:41 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/30 14:42:15 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*freedent(char **s)
+{
+	free(*s);
+	*s = 0;
+	return (*s);
+}
 
 char	*cleanstash(char *stash)
 {
@@ -20,24 +27,23 @@ char	*cleanstash(char *stash)
 
 	i = 0;
 	len = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
 	if (!stash[i])
 	{
-		free(stash);
 		return (NULL);
 	}
+	while (stash[i] && stash[i] != '\n')
+		i++;
 	newstash = malloc(sizeof(char) * (ft_strlen(stash) - i));
 	if (!newstash)
-		return (NULL);
-	i++;
+		return (stash = freedent(&stash));
+	if (stash[i] == '\n')
+		i++;
 	while (stash[i])
 	{
 		newstash[len++] = stash[i++];
 	}
 	newstash[len] = 0;
 	free(stash);
-	stash = 0;
 	return (newstash);
 }
 
@@ -78,21 +84,19 @@ char	*getstash(int fd, char *stash)
 	i = 1;
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
-		return (NULL);
+		return (stash = freedent(&stash));
 	while (!ft_strchr(stash, '\n') && i > 0)
 	{
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
 		{
 			free(buffer);
-			buffer = 0;
 			return (NULL);
 		}
 		buffer[i] = 0;
 		stash = ft_strjoin(stash, buffer);
 	}
 	free(buffer);
-	buffer = 0;
 	return (stash);
 }
 
@@ -102,18 +106,19 @@ char	*get_next_line(int fd)
 	static char	*stash;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (stash = freedent(&stash));
+	line = 0;
+	stash = getstash(fd, stash);
+	if (!stash || !stash[0])
 	{
-		free(stash);
+		if (stash)
+			free(stash);
 		stash = 0;
 		return (NULL);
 	}
-	line = 0;
-	stash = getstash(fd, stash);
-	if (!stash)
-		return (NULL);
 	line = makeline(stash, line);
-	printf("valeur de stash = %s\n", stash);
+	if (!line)
+		return (stash = freedent(&stash));
 	stash = cleanstash(stash);
-	printf("valeur de newstash = %s", stash);
 	return (line);
 }
