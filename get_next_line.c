@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/29 16:45:13 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/30 11:11:41 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*cleanstash(char *stash)
 	if (!stash[i])
 	{
 		free(stash);
-		stash = 0;
 		return (NULL);
 	}
 	newstash = malloc(sizeof(char) * (ft_strlen(stash) - i));
@@ -113,6 +112,8 @@ char	*get_next_line(int fd)
 	if (!stash)
 		return (NULL);
 	line = makeline(stash, line);
+	printf("valeur de stash = %s\n", stash);
 	stash = cleanstash(stash);
+	printf("valeur de newstash = %s", stash);
 	return (line);
 }
