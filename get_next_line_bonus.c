@@ -6,11 +6,18 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/29 15:07:23 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/29 15:13:59 by jlecorne         ###   ########.fr       */
+/*   Updated: 2022/12/30 14:49:37 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
+
+char	*freedent(char **s)
+{
+	free(*s);
+	*s = 0;
+	return (*s);
+}
 
 char	*cleanstash(char *stash)
 {
@@ -20,17 +27,17 @@ char	*cleanstash(char *stash)
 
 	i = 0;
 	len = 0;
-	while (stash[i] && stash[i] != '\n')
-		i++;
 	if (!stash[i])
 	{
-		free(stash);
 		return (NULL);
 	}
+	while (stash[i] && stash[i] != '\n')
+		i++;
 	newstash = malloc(sizeof(char) * (ft_strlen(stash) - i));
 	if (!newstash)
-		return (NULL);
-	i++;
+		return (stash = freedent(&stash));
+	if (stash[i] == '\n')
+		i++;
 	while (stash[i])
 	{
 		newstash[len++] = stash[i++];
@@ -77,7 +84,7 @@ char	*getstash(int fd, char *stash)
 	i = 1;
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
-		return (NULL);
+		return (stash = freedent(&stash));
 	while (!ft_strchr(stash, '\n') && i > 0)
 	{
 		i = read(fd, buffer, BUFFER_SIZE);
@@ -99,16 +106,19 @@ char	*get_next_line(int fd)
 	static char	*stash[OPEN_MAX];
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+		return (stash[fd] = freedent(&stash[fd]));
+	line = 0;
+	stash[fd] = getstash(fd, stash[fd]);
+	if (!stash[fd] || !stash[fd][0])
 	{
-		free(stash[fd]);
+		if (stash[fd])
+			free(stash[fd]);
 		stash[fd] = 0;
 		return (NULL);
 	}
-	line = 0;
-	stash[fd] = getstash(fd, stash[fd]);
-	if (!stash[fd])
-		return (NULL);
 	line = makeline(stash[fd], line);
+	if (!line)
+		return (stash[fd] = freedent(&stash[fd]));
 	stash[fd] = cleanstash(stash[fd]);
 	return (line);
 }
