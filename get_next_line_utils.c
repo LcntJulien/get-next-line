@@ -6,13 +6,13 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:06:39 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/30 14:48:28 by jlecorne         ###   ########.fr       */
+/*   Updated: 2023/02/27 17:27:08 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-size_t	ft_strlen(char *s)
+size_t	gnl_strlen(char *s)
 {
 	size_t	i;
 
@@ -24,7 +24,7 @@ size_t	ft_strlen(char *s)
 	return (i);
 }
 
-char	*ft_strchr(char *s, int c)
+char	*gnl_strchr(char *s, int c)
 {
 	int	i;
 
@@ -32,7 +32,7 @@ char	*ft_strchr(char *s, int c)
 	if (!s)
 		return (0);
 	if (c == '\0')
-		return ((char *)&s[ft_strlen(s)]);
+		return ((char *)&s[gnl_strlen(s)]);
 	while (s[i] != '\0')
 	{
 		if (s[i] == (char)c)
@@ -65,7 +65,7 @@ void	*ft_calloc(size_t count, size_t size)
 	return (p);
 }
 
-char	*ft_strjoin(char *s1, char *s2)
+char	*gnl_strjoin(char *s1, char *s2)
 {
 	size_t	i;
 	size_t	j;
@@ -77,7 +77,7 @@ char	*ft_strjoin(char *s1, char *s2)
 		return (NULL);
 	if (s1 && !s2)
 		free(s1);
-	s = malloc((ft_strlen(s1) + ft_strlen(s2) + 1) * sizeof(char));
+	s = malloc((gnl_strlen(s1) + gnl_strlen(s2) + 1) * sizeof(char));
 	if (!s)
 		return (s1 = freedent(&s1));
 	i = -1;
@@ -87,7 +87,8 @@ char	*ft_strjoin(char *s1, char *s2)
 			s[i] = s1[i];
 	while (s2[j] != '\0')
 		s[i++] = s2[j++];
-	s[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	s[gnl_strlen(s1) + gnl_strlen(s2)] = '\0';
 	free(s1);
 	return (s);
 }
+

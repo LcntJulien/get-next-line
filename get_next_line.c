@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2022/12/30 14:42:15 by jlecorne         ###   ########.fr       */
+/*   Updated: 2023/02/27 17:31:25 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*cleanstash(char *stash)
 	}
 	while (stash[i] && stash[i] != '\n')
 		i++;
-	newstash = malloc(sizeof(char) * (ft_strlen(stash) - i));
+	newstash = malloc(sizeof(char) * (gnl_strlen(stash) - i));
 	if (!newstash)
 		return (stash = freedent(&stash));
 	if (stash[i] == '\n')
@@ -85,7 +85,7 @@ char	*getstash(int fd, char *stash)
 	buffer = malloc((BUFFER_SIZE + 1) * sizeof(char));
 	if (!buffer)
 		return (stash = freedent(&stash));
-	while (!ft_strchr(stash, '\n') && i > 0)
+	while (!gnl_strchr(stash, '\n') && i > 0)
 	{
 		i = read(fd, buffer, BUFFER_SIZE);
 		if (i == -1)
@@ -94,7 +94,7 @@ char	*getstash(int fd, char *stash)
 			return (NULL);
 		}
 		buffer[i] = 0;
-		stash = ft_strjoin(stash, buffer);
+		stash = gnl_strjoin(stash, buffer);
 	}
 	free(buffer);
 	return (stash);
