@@ -6,7 +6,7 @@
 /*   By: jlecorne <jlecorne@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/06 18:05:10 by jlecorne          #+#    #+#             */
-/*   Updated: 2023/02/27 17:31:25 by jlecorne         ###   ########.fr       */
+/*   Updated: 2023/09/08 14:56:58 by jlecorne         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,4 +121,18 @@ char	*get_next_line(int fd)
 		return (stash = freedent(&stash));
 	stash = cleanstash(stash);
 	return (line);
+}
+
+int main(int ac, char **av)
+{
+    (void)ac;
+    int fd = open(av[1], O_RDONLY);
+    char    *s = get_next_line(fd);
+    fprintf(stderr, "%s", s);
+
+    while (s)
+    {
+        fprintf(stderr, "%s", s);
+        s = get_next_line(fd);
+    }
 }
